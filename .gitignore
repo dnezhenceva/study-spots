@@ -1,0 +1,19 @@
+# XAMPP / system
+*.log
+*.tmp
+*.cache
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# PHP
+/vendor/
+
+# env
+.env
+public/config.js
