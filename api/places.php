@@ -358,7 +358,6 @@ for ($i = 0; $i < count($rows); $i++) {
     $row['DisplayAddress'] = cleanAddress($row['ObjectAddress'] ?? '');
     unset($row['ObjectAddress']);
   }
-
   echo json_encode($rows, JSON_UNESCAPED_UNICODE);
 
 } catch (Exception $e) {
