@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Кабинет — Study Spots</title>
+  <style>
+    :root{
+      --text:#0b1020; --muted:#51607a;
+      --card: rgba(255,255,255,0.60); --stroke: rgba(15,23,42,0.10);
+      --shadow: 0 18px 55px rgba(2,6,23,0.14);
+      --primary1:#1d4ed8; --primary2:#0ea5e9;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 600px at 12% 10%, rgba(37,99,235,0.22), transparent 60%),
+        radial-gradient(900px 600px at 92% 25%, rgba(251,113,133,0.18), transparent 55%),
+        radial-gradient(1000px 700px at 55% 105%, rgba(14,165,233,0.18), transparent 55%),
+        linear-gradient(180deg, #ffffff 0%, #f3f7ff 40%, #f6f2ff 100%);
+      min-height:100vh;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1080px;margin:0 auto;padding:18px}
+    .top{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:12px;flex-wrap:wrap;padding:12px 0;
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:44px;height:44px;border-radius:14px;
+      background: radial-gradient(circle at 30% 30%, #60a5fa 0%, #2563eb 38%, #0ea5e9 72%, #f472b6 100%);
+      box-shadow: 0 18px 40px rgba(29,78,216,0.25);
+    }
+    .btn{
+      border:1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.65);
+      padding:10px 12px;border-radius:14px;cursor:pointer;
+      display:inline-flex;align-items:center;gap:8px;
+      backdrop-filter: blur(12px);
+    }
+    .btn.primary{
+      border:none;color:#fff;
+      background: linear-gradient(135deg,var(--primary1),var(--primary2));
+      box-shadow: 0 14px 34px rgba(29,78,216,0.20);
+    }
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.60);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      color: var(--muted);
+      backdrop-filter: blur(12px);
+    }
+    .card{
+      border: 1px solid rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.60);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      padding: 16px;
+    }
+    .grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .h1{margin:0;font-size:22px}
+    .muted{color:var(--muted);line-height:1.4}
+    .stat{
+      margin-top:12px;
+      display:flex;gap:10px;flex-wrap:wrap;
+    }
+    .tile{
+      flex:1;
+      min-width: 220px;
+      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.55);
+      border-radius: 18px;
+      padding: 12px;
+    }
+    .tile b{font-size:18px}
+    @media(max-width:920px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <b>Study Spots</b>
+          <div class="pill" style="margin-top:6px">Личный кабинет</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <a class="btn" href="/study-spots/public/map.html">← На карту</a>
+        <button class="btn" id="logout">Выйти</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="h1">Профиль</div>
+        <div class="muted" id="info" style="margin-top:10px">Загрузка…</div>
+
+        <div class="stat" id="stats" style="display:none">
+          <div class="tile">
+            <div class="muted">Check-in за 90 минут</div>
+            <b id="activeNow">—</b>
+          </div>
+          <div class="tile">
+            <div class="muted">Всего посещений (демо)</div>
+            <b id="totalVisits">—</b>
+          </div>
+        </div>
+
+        <div class="muted" style="margin-top:12px">
+          Здесь можно показать “мои отзывы” и “историю посещений”. Для курсового достаточно профиля + выхода.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="h1">Быстрые действия</div>
+        <div class="muted" style="margin-top:10px">Перейди на карту и используй “Я здесь”, чтобы повлиять на загруженность мест.</div>
+        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn primary" href="/study-spots/public/map.html#recommend">✨ Лучшие места сейчас</a>
+          <a class="btn" href="/study-spots/public/map.html#mapArea">🗺️ Открыть карту</a>
+          <a class="btn" href="/study-spots/public/auth.html?mode=reg">➕ Создать второй аккаунт</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+async function loadMe(){
+  const r = await fetch('/study-spots/api/me.php', {cache:'no-store'});
+  const j = await r.json();
+  if (!j.user){
+    location.href = '/study-spots/public/auth.html?mode=login';
+    return;
+  }
+
+  document.getElementById('info').innerHTML =
+    `<div class="pill">👤 ${j.user.Username}</div>
+     <div class="muted" style="margin-top:10px">
+       Ты вошла в аккаунт. Теперь кнопки “Я здесь / Я вышла” доступны на карте и на странице места.
+     </div>`;
+
+  document.getElementById('stats').style.display = 'flex';
+  document.getElementById('activeNow').textContent = '✔ доступно';
+  document.getElementById('totalVisits').textContent = '—';
+}
+
+document.getElementById('logout').onclick = async ()=>{
+  await fetch('/study-spots/api/logout.php', {method:'POST'});
+  location.href = '/study-spots/public/map.html';
+};
+
+loadMe();
+</script>
+</body>
+</html>

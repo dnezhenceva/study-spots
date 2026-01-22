@@ -1,0 +1,1427 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Study Spots — места для учёбы в Москве</title>  <style>
+  
+.auth-bar{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+}
+.auth-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.6);
+  border:1px solid rgba(15,23,42,0.12);
+  font-weight:600;
+}
+.meta.addr{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+
+    :root{
+      --text: #0b1020;
+      --muted: #51607a;
+
+      --card: rgba(255,255,255,0.50);
+      --card2: rgba(255,255,255,0.38);
+      --stroke: rgba(255,255,255,0.55);
+      --stroke2: rgba(15,23,42,0.10);
+
+      --shadow: 0 18px 55px rgba(2,6,23,0.18);
+      --shadow2: 0 12px 28px rgba(2,6,23,0.12);
+      --radius: 18px;
+      --max: 1120px;
+
+      --primary: #2563eb;
+      --primary2:#0ea5e9;
+
+      --good: #22c55e;
+      --good2:#10b981;
+
+      --chipOkBg: rgba(16,185,129,0.14);
+      --chipOkBd: rgba(16,185,129,0.30);
+
+      --chipBadBg: rgba(239,68,68,0.12);
+      --chipBadBd: rgba(239,68,68,0.26);
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--text);
+      background:
+        radial-gradient(900px 600px at 12% 10%, rgba(37,99,235,0.22), transparent 60%),
+        radial-gradient(900px 600px at 92% 25%, rgba(251,113,133,0.20), transparent 55%),
+        radial-gradient(1000px 700px at 55% 105%, rgba(14,165,233,0.18), transparent 55%),
+        linear-gradient(180deg, #ffffff 0%, #f3f7ff 40%, #f6f2ff 100%);
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    .container{ max-width: var(--max); margin: 0 auto; padding: 0 18px; }
+    
+
+    .topbar{
+      position: sticky;
+      top:0;
+      z-index:1000;
+      background: rgba(255,255,255,0.55);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(15,23,42,0.08);
+    }
+    .topbar-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 12px 0;
+      gap: 12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      min-width: 240px;
+    }
+    .logo{
+      width: 42px; height: 42px;
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 30% 30%, #ffb703, transparent 58%),
+        radial-gradient(circle at 72% 60%, #fb7185, transparent 58%),
+        linear-gradient(135deg, #1d4ed8, #2563eb);
+      box-shadow: 0 12px 30px rgba(29,78,216,0.20);
+      flex:0 0 auto;
+    }
+    .brand h1{ margin:0; font-size: 15px; line-height:1.1; }
+    .brand p{ margin: 3px 0 0 0; font-size: 12px; color: var(--muted); }
+
+    .nav{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+      align-items:center;
+    }
+
+    .btn{
+      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.55);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor:pointer;
+      transition: 0.15s ease;
+      user-select:none;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      backdrop-filter: blur(10px);
+    }
+    .btn:hover{ transform: translateY(-1px); box-shadow: var(--shadow2); }
+    .btn:active{ transform: translateY(0); }
+    .btn.primary{
+      border: none;
+      color: #fff;
+      background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
+      box-shadow: 0 14px 34px rgba(29,78,216,0.20);
+    }
+    .btn.good{
+      border: none;
+      color:#08341f;
+      background: linear-gradient(135deg, rgba(34,197,94,0.95), rgba(16,185,129,0.75));
+      box-shadow: 0 14px 34px rgba(16,185,129,0.18);
+    }
+    .btn.ghost{
+      background: rgba(255,255,255,0.25);
+      border-color: rgba(15,23,42,0.10);
+      box-shadow:none;
+    }
+
+    .pill{
+      font-size: 12px;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.55);
+      backdrop-filter: blur(12px);
+    }
+
+    section{ padding: 44px 0; }
+
+    .hero{ padding-top: 26px; }
+    .hero-wrap{
+      position: relative;
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.55);
+      background:
+        radial-gradient(800px 420px at 20% 30%, rgba(255,255,255,0.20), transparent 60%),
+        radial-gradient(600px 360px at 80% 45%, rgba(255,183,3,0.42), transparent 60%),
+        radial-gradient(800px 520px at 85% 60%, rgba(251,113,133,0.38), transparent 60%),
+        radial-gradient(900px 520px at 65% 20%, rgba(56,189,248,0.22), transparent 60%),
+        linear-gradient(135deg, #1d4ed8, #2563eb 38%, #3b82f6 70%, #60a5fa);
+      color: #fff;
+    }
+    .hero-inner{
+      display:grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+      padding: 26px;
+      align-items: stretch;
+    }
+    .hero h2{
+      margin: 6px 0 10px 0;
+      font-size: 44px;
+      line-height: 1.02;
+      letter-spacing: -0.3px;
+    }
+    .hero p{
+      margin:0;
+      color: rgba(255,255,255,0.86);
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 60ch;
+    }
+    .hero-actions{
+      margin-top: 18px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+    }
+    .hero-actions .pill{
+      border-color: rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.90);
+      background: rgba(255,255,255,0.10);
+    }
+
+    .float-cards{ display:grid; gap: 12px; }
+    .float-card{
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 18px;
+      padding: 14px;
+      backdrop-filter: blur(10px);
+    }
+    .float-card h3{
+      margin:0;
+      font-size: 14px;
+      letter-spacing: 0.15px;
+      color: rgba(255,255,255,0.95);
+    }
+    .float-card p{
+      margin:6px 0 0 0;
+      font-size: 12.5px;
+      line-height:1.45;
+      color: rgba(255,255,255,0.80);
+    }
+
+    .panel{
+      position: relative;
+      border-radius: var(--radius);
+      padding: 1px;
+      background: linear-gradient(135deg,
+        rgba(37,99,235,0.35),
+        rgba(14,165,233,0.25),
+        rgba(251,113,133,0.22),
+        rgba(255,183,3,0.20)
+      );
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .panel-inner{
+      background: linear-gradient(135deg, var(--card), var(--card2));
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: calc(var(--radius) - 1px);
+      backdrop-filter: blur(14px);
+      padding: 18px;
+    }
+
+    .section-title{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .section-title h3{ margin:0; font-size: 18px; letter-spacing: -0.1px; }
+    .section-title p{
+      margin: 6px 0 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      max-width: 70ch;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .card{
+      border: 1px solid rgba(15,23,42,0.08);
+      background: rgba(255,255,255,0.45);
+      border-radius: 16px;
+      padding: 14px;
+      backdrop-filter: blur(12px);
+    }
+    .card h4{ margin:0 0 6px 0; font-size: 14px; }
+    .card p{ margin:0; color: var(--muted); font-size: 13px; line-height:1.45; }
+
+    .rec-toolbar{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    .input{
+      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.55);
+      padding: 10px 12px;
+      border-radius: 14px;
+      color: var(--text);
+      outline:none;
+      width: 88px;
+      backdrop-filter: blur(10px);
+    }
+
+    .rec-list{
+      margin-top: 12px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .rec{
+      border: 1px solid rgba(15,23,42,0.08);
+      background: rgba(255,255,255,0.48);
+      border-radius: 16px;
+      padding: 14px;
+      transition: 0.15s ease;
+      backdrop-filter: blur(12px);
+    }
+    .rec:hover{ transform: translateY(-1px); box-shadow: var(--shadow2); }
+    .rec h4{ margin:0; font-size: 14px; line-height: 1.25; }
+    .meta{ margin-top: 6px; color: var(--muted); font-size: 12.5px; line-height:1.35; }
+
+    .chips{
+      margin-top: 10px;
+      display:flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .chip{
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.55);
+      white-space: nowrap;
+      backdrop-filter: blur(10px);
+    }
+    .chip.ok{ border-color: var(--chipOkBd); background: var(--chipOkBg); }
+    .chip.bad{ border-color: var(--chipBadBd); background: var(--chipBadBg); }
+
+    .rec-actions{
+      margin-top: 10px;
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .rec-actions .btn{ padding: 8px 10px; border-radius: 12px; font-size: 13px; }
+
+    .map-head{
+      padding: 2px;
+      border-radius: 16px;
+      background: linear-gradient(135deg,
+        rgba(14,165,233,0.30),
+        rgba(37,99,235,0.28),
+        rgba(251,113,133,0.18)
+      );
+      margin-bottom: 12px;
+    }
+    .map-head-inner{
+      background: rgba(255,255,255,0.45);
+      border: 1px solid rgba(255,255,255,0.38);
+      border-radius: 16px;
+      padding: 14px 16px;
+      backdrop-filter: blur(14px);
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .map-head-inner h3{ margin:0; font-size: 16px; }
+    .map-head-inner .hint{ margin-top:6px; color: var(--muted); font-size: 12.5px; line-height:1.35; }
+
+    .filters{
+      padding: 14px 0 0 0;
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 10px;
+    }
+    .label{ font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    select, input[type="number"], .control{
+      width: 100%;
+      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.55);
+      padding: 10px 12px;
+      border-radius: 14px;
+      outline:none;
+      color: var(--text);
+      backdrop-filter: blur(10px);
+    }
+
+    .toggleline{
+      margin-top: 12px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+      padding-top: 12px;
+      border-top: 1px solid rgba(15,23,42,0.08);
+    }
+    .mini-toggle{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.55);
+      font-size: 13px;
+      cursor:pointer;
+      user-select:none;
+      backdrop-filter: blur(10px);
+    }
+    .mini-toggle.on{
+      border-color: rgba(29,78,216,0.35);
+      background: rgba(29,78,216,0.12);
+      color: rgba(29,78,216,1);
+    }
+
+    #map{
+      margin-top: 14px;
+      height: 520px;
+      width: 100%;
+      border-radius: 18px;
+      overflow:hidden;
+      box-shadow: 0 18px 55px rgba(2,6,23,0.18);
+      border: 1px solid rgba(255,255,255,0.55);
+    }
+
+    .footer{
+      padding: 22px 0 34px 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height:1.55;
+    }
+
+    .leaflet-popup-content-wrapper{
+      border-radius: 14px;
+      box-shadow: 0 18px 55px rgba(2,6,23,0.25);
+    }
+    .leaflet-popup-content{
+      margin: 10px 12px;
+      font-family: inherit;
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px){
+      .hero-inner{ grid-template-columns: 1fr; }
+      .cards{ grid-template-columns: 1fr; }
+      .rec-list{ grid-template-columns: 1fr; }
+      .filters{ grid-template-columns: 1fr 1fr; }
+      .hero h2{ font-size: 36px; }
+    }
+    @media (max-width: 560px){
+      .filters{ grid-template-columns: 1fr; }
+      .hero h2{ font-size: 30px; }
+      .nav{ gap: 6px; }
+      .btn{ padding: 9px 10px; border-radius: 12px; }
+    }
+    .scorebar{
+  margin-top:10px;
+  height:10px;
+  border-radius:999px;
+  background: rgba(15,23,42,0.10);
+  overflow:hidden;
+}
+.scorebar > div{
+  height:100%;
+  border-radius:999px;
+  width:0%;
+}
+.scoretag{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:8px;
+  font-size:12.5px;
+  color: var(--muted);
+}
+.badgeScore{
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.tierBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(15,23,42,0.10);
+  background: rgba(255,255,255,0.55);
+  font-size:12px;
+  font-weight:700;
+  color:#0b1020;
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  display:inline-block;
+}
+
+.tier1 .dot{ background: rgba(16,185,129,0.95); box-shadow: 0 0 0 4px rgba(16,185,129,0.18); }
+.tier2 .dot{ background: rgba(245,158,11,0.95); box-shadow: 0 0 0 4px rgba(245,158,11,0.16); }
+.tier3 .dot{ background: rgba(239,68,68,0.95); box-shadow: 0 0 0 4px rgba(239,68,68,0.14); }
+
+.mk{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,0.95);
+  box-shadow: 0 10px 26px rgba(2,6,23,0.18);
+}
+.mk1{ background: rgba(16,185,129,0.95); }
+.mk2{ background: rgba(245,158,11,0.95); }
+.mk3{ background: rgba(239,68,68,0.95); }
+
+.badgeGood{ background: rgba(16,185,129,0.14); border:1px solid rgba(16,185,129,0.35); color:#0f5132; }
+.badgeMid{ background: rgba(245,158,11,0.14); border:1px solid rgba(245,158,11,0.35); color:#7a4b00; }
+.badgeBad{ background: rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.30); color:#7a1c1c; }
+
+  </style>
+  <script src="https://mapgl.2gis.com/api/js/v1"></script>
+</head>
+<body>
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="logo"></div>
+          <div>
+            <h1>Study Spots</h1>
+            <p>Тихие места для учёбы в Москве · библиотеки и музеи</p>
+          </div>
+        </div>
+
+        <div class="nav">
+          <a class="btn ghost" href="#how">Как это работает</a>
+          <a class="btn ghost" href="#recommend">Рекомендации</a>
+          <a class="btn primary" href="#mapArea">Карта</a>
+        </div>
+
+        <div id="authBar" class="auth-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-wrap">
+        <div class="hero-inner">
+          <div>
+            <h2>Найди место, где удобно учиться</h2>
+            <p>
+              Study Spots показывает библиотеки и музеи на карте и подсказывает <b>лучшие места для учёбы сейчас</b>.
+              Мы учитываем условия (Wi-Fi, розетки, бесплатно), отзывы и текущую загруженность (check-in).
+            </p>
+
+            <div class="hero-actions">
+              <button class="btn good" id="btnBestTop">✨ Лучшие сейчас</button>
+              <button class="btn" id="btnNearTop">📍 Рядом со мной</button>
+              <a class="btn primary" href="#mapArea">Открыть карту</a>
+              <span class="pill" id="status">Готово</span>
+            </div>
+          </div>
+
+          <div class="float-cards">
+            <div class="float-card">
+              <h3>🎓 Для кого</h3>
+              <p>Студенты, школьники и все, кому нужна концентрация и стабильный Wi-Fi.</p>
+            </div>
+            <div class="float-card">
+              <h3>🧠 Рекомендатель</h3>
+              <p>Индекс удобства учитывает рейтинг, уровень шума и удобства.</p>
+            </div>
+            <div class="float-card">
+              <h3>📍 “Рядом со мной”</h3>
+              <p>Сервис использует геолокацию, чтобы показывать ближайшие подходящие места.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="container">
+      <div class="panel">
+        <div class="panel-inner">
+          <div class="section-title">
+            <div>
+              <h3>Как это работает</h3>
+              <p>Сервис помогает принять решение “куда пойти учиться” на основе открытых данных и отзывов.</p>
+            </div>
+            <span class="pill" id="statsPill">—</span>
+          </div>
+
+          <div class="cards">
+            <div class="card">
+              <h4>1) База мест</h4>
+              <p>Открытые данные о библиотеках и музеях приводим к единому формату.</p>
+            </div>
+            <div class="card">
+              <h4>2) Отзывы</h4>
+              <p>Пользователи отмечают шум, Wi-Fi, розетки, бесплатно/платно и ставят оценку.</p>
+            </div>
+            <div class="card">
+              <h4>3) Загруженность</h4>
+              <p>Check-in показывает людей “сейчас” и помогает распределять потоки.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="recommend">
+    <div class="container">
+      <div class="panel">
+        <div class="panel-inner">
+          <div class="section-title">
+            <div>
+              <h3>Лучшие места для учёбы сейчас</h3>
+              <p>Нажми кнопку — получишь ТОП мест по <b>Индексу удобства (0–100)</b>. Чем выше — тем лучше для учёбы сейчас.</p>
+
+<div class="panel" style="margin-top:14px;">
+  <div class="panel-inner">
+    <div class="section-title" style="margin-bottom:8px;">
+      <div>
+        <h3>Как считается индекс удобства</h3>
+        <p>Мы объединяем отзывы, условия и текущую загруженность (check-in). Это помогает быстро выбрать место.</p>
+      </div>
+      <span class="pill">Шкала: 0–100</span>
+    </div>
+
+    <div class="cards" style="grid-template-columns:repeat(4,1fr);">
+      <div class="card">
+        <h4>⭐ Оценки</h4>
+        <p>Средний рейтинг пользователей влияет на индекс.</p>
+      </div>
+      <div class="card">
+        <h4>🔌 Условия</h4>
+        <p>Wi-Fi и розетки повышают удобство для учёбы.</p>
+      </div>
+      <div class="card">
+        <h4>🔇 Шум</h4>
+        <p>Тихие места получают преимущество по отзывам.</p>
+      </div>
+      <div class="card">
+        <h4>👥 Загруженность</h4>
+        <p>Чем меньше людей “сейчас”, тем выше индекс.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+      <span class="badgeScore badgeGood">80–100: отлично</span>
+      <span class="badgeScore badgeMid">60–79: хорошо</span>
+      <span class="badgeScore badgeBad">0–59: лучше поискать</span>
+      <span class="pill">Загруженность считается за последние 90 минут</span>
+    </div>
+  </div>
+</div>
+
+
+            <div class="rec-toolbar">
+              <button class="btn" id="btnNear">📍 Рядом со мной</button>
+              <span class="pill">ТОП:
+                <input class="input" id="topn" type="number" min="5" max="50" value="10">
+              </span>
+              <button class="btn good" id="btnBest">✨ Лучшие сейчас</button>
+              <a class="btn primary" href="#mapArea">К карте</a>
+            </div>
+          </div>
+
+          <div class="rec-list" id="recList">
+            <div class="rec">
+              <h4>Нажми “Лучшие сейчас”</h4>
+              <div class="meta">Здесь появятся рекомендации.</div>
+            </div>
+            <div class="rec">
+              <h4>Или “Рядом со мной”</h4>
+              <div class="meta">Попросим геолокацию и покажем ближайшие места.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mapArea">
+    <div class="container">
+      <div class="map-head">
+        <div class="map-head-inner">
+          <div>
+            <h3>Карта мест</h3>
+            <div class="hint">Фильтры влияют и на карту, и на рекомендации.</div>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn" id="btnShowAll">Показать все</button>
+            <button class="btn primary" id="btnApply">Применить</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-inner">
+          <div class="filters">
+            <div>
+              <div class="label">Тип</div>
+              <select id="type">
+                <option value="all">Все</option>
+                <option value="library">Библиотеки</option>
+                <option value="museum">Музеи</option>
+              </select>
+            </div>
+
+            <div>
+              <div class="label">Шум</div>
+              <select id="noise">
+                <option value="any">Любой</option>
+                <option value="quiet">Тихий зал</option>
+                <option value="background">Фоновый шум</option>
+                <option value="lively">Оживлённо</option>
+                <option value="kids_loud">Громкие дети</option>
+              </select>
+            </div>
+
+            <div>
+              <div class="label">Макс. загруженность</div>
+              <input id="max_people" type="number" min="0" max="999" value="5" />
+            </div>
+
+            <div>
+              <div class="label">Статус</div>
+              <div class="control" id="mapStatus" style="display:flex;align-items:center;justify-content:space-between;">
+                <span>—</span>
+                <span style="color:var(--muted);font-size:12px">точек</span>
+              </div>
+            </div>
+          </div>
+          <div>
+  <div class="label">Сейчас</div>
+  <div class="control" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+    <span style="display:flex;align-items:center;gap:6px;font-size:12px;">
+      <span class="dot" style="background:rgba(16,185,129,0.95);"></span>
+      актуально сейчас
+    </span>
+    <span style="display:flex;align-items:center;gap:6px;font-size:12px;">
+      <span class="dot" style="background:rgba(245,158,11,0.95);"></span>
+      нормальный вариант
+    </span>
+    <span style="display:flex;align-items:center;gap:6px;font-size:12px;">
+      <span class="dot" style="background:rgba(239,68,68,0.95);"></span>
+      лучше позже
+    </span>
+  </div>
+</div>
+
+
+          <div class="toggleline">
+            <div class="mini-toggle" id="tWifi">Wi-Fi</div>
+            <div class="mini-toggle" id="tSockets">Розетки</div>
+            <div class="mini-toggle" id="tFree">Бесплатно</div>
+
+            <div style="margin-left:auto; display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn" id="btnReset">Сброс</button>
+              <a class="btn good" href="#recommend">✨ К рекомендациям</a>
+            </div>
+          </div>
+
+          <div id="map"></div>
+        </div>
+      </div>
+
+      <div class="footer">
+        Study Spots — учебный проект. Данные о библиотеках и музеях получены из открытых источников.
+        Условия (Wi-Fi/розетки/шум) и загруженность (check-in) дополняются пользователями.
+      </div>
+    </div>
+  </section>  <script>
+
+    const MAPGL_KEY = "b59a73f1-e4f4-425e-9a2f-a4be85d5737a";
+
+    const map = new mapgl.Map('map', {
+      key: MAPGL_KEY,
+      center: [37.618423, 55.751244], 
+      zoom: 11,
+    });
+    
+
+
+    let markers = [];                
+    const markerByKey = new Map();   
+    let popup = null;                
+    let userMarker = null;          
+    let userLatLng = null;           
+
+    const statusEl = document.getElementById('status');
+    const mapStatus = document.getElementById('mapStatus');
+    const recList = document.getElementById('recList');
+    const statsPill = document.getElementById('statsPill');
+
+    const typeEl = document.getElementById('type');
+    const noiseEl = document.getElementById('noise');
+    const maxPeopleEl = document.getElementById('max_people');
+    const topnEl = document.getElementById('topn');
+
+    const tWifi = document.getElementById('tWifi');
+    const tSockets = document.getElementById('tSockets');
+    const tFree = document.getElementById('tFree');
+
+    let state = { wifi:false, sockets:false, free:false };
+
+    let currentUser = null;
+
+    function setMiniToggle(el, on){ el.classList.toggle('on', !!on); }
+    tWifi.addEventListener('click', () => { state.wifi = !state.wifi; setMiniToggle(tWifi, state.wifi); });
+    tSockets.addEventListener('click', () => { state.sockets = !state.sockets; setMiniToggle(tSockets, state.sockets); });
+    tFree.addEventListener('click', () => { state.free = !state.free; setMiniToggle(tFree, state.free); });
+
+    function inMoscow(lat, lon){ return (lat >= 54 && lat <= 57 && lon >= 35 && lon <= 40); }
+    function badge(type){ return type === 'library' ? '📚' : '🏛️'; }
+    function safeSite(url){
+      if (!url) return '';
+      const u = String(url).trim();
+      return /^https?:\/\//i.test(u) ? u : `https://${u}`;
+    }
+    function getLatLon(p){
+  const lat = Number(p.Latitude ?? p.latitude ?? p.lat ?? p.Lat ?? p.LAT);
+  const lon = Number(p.Longitude ?? p.longitude ?? p.lon ?? p.Lon ?? p.LON);
+  return { lat, lon };
+}
+
+
+    function distKm(aLat, aLon, bLat, bLon){
+      const R = 6371;
+      const dLat = (bLat - aLat) * Math.PI/180;
+      const dLon = (bLon - aLon) * Math.PI/180;
+      const s1 = Math.sin(dLat/2);
+      const s2 = Math.sin(dLon/2);
+      const aa = s1*s1 + Math.cos(aLat*Math.PI/180)*Math.cos(bLat*Math.PI/180)*s2*s2;
+      return 2 * R * Math.asin(Math.sqrt(aa));
+    }
+
+    function buildApiUrl({recommend=false} = {}){
+      const base = '/study-spots/api/places.php';
+      const p = new URLSearchParams();
+
+      const type = typeEl.value;
+      const noise = noiseEl.value;
+
+      let maxPeople = parseInt(maxPeopleEl.value, 10);
+      if (!Number.isFinite(maxPeople) || maxPeople < 0) maxPeople = 0;
+
+      let topn = parseInt(topnEl.value, 10);
+      if (!Number.isFinite(topn) || topn < 5) topn = 10;
+      if (topn > 50) topn = 50;
+
+      if (type !== 'all') p.set('type', type);
+      if (noise !== 'any') p.set('noise', noise);
+
+      if (state.wifi) p.set('wifi', '1');
+      if (state.sockets) p.set('sockets', '1');
+      if (state.free) p.set('free', '1');
+
+      p.set('max_people', String(maxPeople));
+
+      if (recommend){
+        p.set('recommend','1');
+        p.set('limit', String(topn));
+      } else {
+        p.set('limit','2000');
+      }
+
+      return `${base}?${p.toString()}`;
+    }
+
+    function clearMarkers(){
+      if (popup){ popup.destroy(); popup = null; }
+
+      markers.forEach(m => {
+        try{ m.destroy(); }catch(e){ /* ignore */ }
+      });
+      markers = [];
+      markerByKey.clear();
+    }
+
+    function popupHtml(p){
+      const title = p.CommonName ?? '(без названия)';
+      const addr = (p.DisplayAddress ?? '').toString();
+      const avg = (p.Avg_rating !== null && p.Avg_rating !== undefined) ? p.Avg_rating : '—';
+      const score = (p.Score !== null && p.Score !== undefined) ? Math.round(Number(p.Score)) : '—';
+      const site = p.WebSite ? safeSite(p.WebSite) : '';
+      const tier = tierInfo(p);
+
+
+      return `
+        <div class="popup" style="
+          background: rgba(255,255,255,0.95);
+          border: 1px solid rgba(15,23,42,0.12);
+          border-radius: 14px;
+          box-shadow: 0 18px 55px rgba(2,6,23,0.20);
+          overflow:hidden;
+          min-width: 240px;
+        ">
+          <div style="padding:10px 12px;">
+            <div style="font-weight:800;margin-bottom:4px">
+              ${badge(p.Place_type)} ${title}
+            </div>
+            <div style="color:#334155;line-height:1.35">
+              ${addr}
+            </div>
+            <div style="margin-top:6px;color:#0b1020">
+              Оценка: ${avg !== '—' ? avg : 'нет данных'} · Сейчас: ${p.Active_people} человек · Индекс удобства: <b>${score}</b>/100
+
+            </div>
+
+            <div style="margin-top:8px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a href="/study-spots/public/place.html?type=${encodeURIComponent(p.Place_type)}&id=${encodeURIComponent(p.Place_id)}" style="color:#2563eb;font-weight:700">
+                Подробнее →
+              </a>
+              ${site ? `<a href="${site}" target="_blank" rel="noopener" style="color:#2563eb;font-weight:700">Сайт</a>` : ''}
+            </div>
+          </div>
+          <div class="popup-tip" style="
+            width: 12px; height: 12px;
+            background: rgba(255,255,255,0.95);
+            border-right: 1px solid rgba(15,23,42,0.12);
+            border-bottom: 1px solid rgba(15,23,42,0.12);
+            transform: rotate(45deg);
+            position: absolute;
+            left: 50%;
+            margin-left: -6px;
+            bottom: -6px;
+          "></div>
+        </div>
+      `;
+    }
+
+    function showPopup(p){
+      const { lat, lon } = getLatLon(p);
+
+      if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+
+      if (popup){ popup.destroy(); popup = null; }
+
+      popup = new mapgl.HtmlMarker(map, {
+        coordinates: [lon, lat],
+        html: popupHtml(p),
+        anchor: [0, 28], 
+      });
+    }
+
+    function addMarkers(places){
+  clearMarkers();
+
+  let minLat = Infinity, minLon = Infinity, maxLat = -Infinity, maxLon = -Infinity;
+  let count = 0;
+
+  places.forEach(p => {
+    const { lat, lon } = getLatLon(p);
+
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+    if (!inMoscow(lat, lon)) return;
+
+    minLat = Math.min(minLat, lat); minLon = Math.min(minLon, lon);
+    maxLat = Math.max(maxLat, lat); maxLon = Math.max(maxLon, lon);
+    count++;
+
+    const tier = tierInfo(p);
+    const key = `${p.Place_type}:${p.Place_id}`;
+
+    const html = `<div class="mk ${tier.cls === 'tier1' ? 'mk1' : tier.cls === 'tier2' ? 'mk2' : 'mk3'}" data-key="${key}" style="cursor:pointer"></div>`;
+
+    const marker = new mapgl.HtmlMarker(map, {
+      coordinates: [lon, lat],
+      html,
+      anchor: [7, 7],
+    });
+
+    markers.push(marker);
+    markerByKey.set(key, { marker, coords:[lon, lat], place:p });
+  });
+
+  if (count > 0 && Number.isFinite(minLat)){
+    map.fitBounds(
+      {
+        northEast: [maxLon, maxLat],
+        southWest: [minLon, minLat],
+      },
+      {}
+    );
+  }
+}
+
+
+    function chip(text, ok=true){
+      const cls = ok ? 'chip ok' : 'chip bad';
+      return `<span class="${cls}">${text}</span>`;
+    }
+
+    function explainChips(p){
+      const chips = [];
+      if (p.Reviews_count > 0){
+        const wifiOk = (p.Wifi_yes >= 0.6 * p.Reviews_count);
+        const socketsOk = (p.Sockets_yes >= 0.6 * p.Reviews_count);
+        const freeOk = (p.Free_votes > p.Paid_votes);
+        const quietOk = (p.Quiet_votes >= (p.Lively_votes + p.Kids_votes));
+
+        chips.push(chip(`Wi-Fi ${wifiOk ? '✅' : '❌'}`, wifiOk));
+        chips.push(chip(`Розетки ${socketsOk ? '✅' : '❌'}`, socketsOk));
+        chips.push(chip(`Бесплатно ${freeOk ? '✅' : '❌'}`, freeOk));
+        chips.push(chip(`Тихо ${quietOk ? '✅' : '❌'}`, quietOk));
+      } else {
+        chips.push(`<span class="chip">Нет отзывов</span>`);
+      }
+      chips.push(`<span class="chip">👥 ${p.Active_people}</span>`);
+      if (p._distanceKm !== undefined){
+        chips.push(`<span class="chip">📍 ${p._distanceKm.toFixed(1)} км</span>`);
+      }
+      return chips.join('');
+    }
+
+    function scoreLabel(s){
+      const n = Number(s);
+      if (!Number.isFinite(n)) return {text:'—', cls:'badgeMid'};
+      if (n >= 80) return {text:'отлично', cls:'badgeGood'};
+      if (n >= 60) return {text:'хорошо', cls:'badgeMid'};
+      return {text:'лучше искать', cls:'badgeBad'};
+    }
+    function tierInfo(p){
+  const c = Number(p.Cluster);
+  if (c === 1) return { text: 'актуально сейчас', cls: 'tier1' };
+  if (c === 2) return { text: 'нормальный вариант', cls: 'tier2' };
+  if (c === 3) return { text: 'лучше позже', cls: 'tier3' };
+
+  const s = Number(p.Score);
+  if (Number.isFinite(s)){
+    if (s >= 80) return { text: 'актуально сейчас', cls: 'tier1' };
+    if (s >= 60) return { text: 'нормальный вариант', cls: 'tier2' };
+    return { text: 'лучше позже', cls: 'tier3' };
+  }
+  return { text: 'без категории', cls: 'tier2' };
+}
+
+
+    function scoreBarStyle(s){
+      const n = Math.max(0, Math.min(100, Number(s) || 0));
+      let bg = 'linear-gradient(90deg, rgba(239,68,68,0.85), rgba(245,158,11,0.85))';
+      if (n >= 80) bg = 'linear-gradient(90deg, rgba(16,185,129,0.85), rgba(14,165,233,0.85))';
+      else if (n >= 60) bg = 'linear-gradient(90deg, rgba(245,158,11,0.90), rgba(14,165,233,0.70))';
+      return {pct: n, bg};
+    }
+
+    function renderRecommendations(places){
+      recList.innerHTML = '';
+
+      if (!places.length){
+        recList.innerHTML = `
+          <div class="rec">
+            <h4>Ничего не найдено</h4>
+            <div class="meta">Ослабь фильтры или увеличь “макс. загруженность”.</div>
+          </div>`;
+        return;
+      }
+
+      places.forEach((p, idx) => {
+        const title = p.CommonName ?? '(без названия)';
+        const addr  = (p.DisplayAddress ?? '').toString();
+        const avg   = (p.Avg_rating !== null && p.Avg_rating !== undefined) ? p.Avg_rating : '—';
+        const score = (p.Score !== null && p.Score !== undefined) ? Math.round(Number(p.Score)) : '—';
+        const site  = p.WebSite ? safeSite(p.WebSite) : '';
+        const key   = `${p.Place_type}:${p.Place_id}`;
+
+        const medal = (idx === 0) ? '🥇 ' : (idx === 1) ? '🥈 ' : (idx === 2) ? '🥉 ' : '';
+        const lbl = scoreLabel(score);
+        const sb  = scoreBarStyle(score);
+        const tier = tierInfo(p);
+
+
+        const el = document.createElement('div');
+        el.className = 'rec';
+
+        el.innerHTML = `
+          <h4>${medal}${idx+1}. ${badge(p.Place_type)} ${title}</h4>
+          <div class="meta addr" title="${addr}">${addr}</div>
+
+
+          <div class="meta" style="margin-top:8px;">
+            Оценка: ${avg !== '—' ? avg : 'нет данных'} · Сейчас: ${p.Active_people} человек
+          </div>
+
+          <div class="scoretag" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+  <span class="badgeScore ${lbl.cls}">${lbl.text}</span>
+  <span>Индекс удобства: <b>${score}</b>/100</span>
+  <span class="tierBadge ${tier.cls}"><span class="dot"></span>Сейчас: ${tier.text}</span>
+</div>
+
+          <div class="scorebar">
+            <div style="width:${sb.pct}%; background:${sb.bg};"></div>
+          </div>
+
+          <div class="chips">${explainChips(p)}</div>
+
+          <div class="rec-actions">
+            <button class="btn primary" data-act="show">Показать на карте</button>
+            <button class="btn" data-act="details">Подробнее</button>
+
+            ${currentUser ? `
+              <button class="btn" data-act="checkin">Я здесь ✅</button>
+              <button class="btn" data-act="checkout">Я вышла 🚪</button>
+            ` : `
+              <a class="btn" href="/study-spots/public/auth.html">Войти, чтобы отметиться</a>
+            `}
+
+            ${site ? `<button class="btn" data-act="site">Сайт</button>` : ``}
+          </div>
+        `;
+
+        el.querySelector('[data-act="show"]').addEventListener('click', () => {
+          document.getElementById('mapArea').scrollIntoView({behavior:'smooth'});
+          const entry = markerByKey.get(key);
+          if (entry){
+            map.setCenter(entry.coords);
+            map.setZoom(15);
+            showPopup(entry.place);
+          } else {
+            const lat = Number(p.Latitude);
+            const lon = Number(p.Longitude);
+            if (Number.isFinite(lat) && Number.isFinite(lon)){
+              map.setCenter([lon, lat]);
+              map.setZoom(15);
+              showPopup(p);
+            }
+          }
+        });
+
+        el.querySelector('[data-act="details"]').addEventListener('click', () => {
+          window.location.href =
+            `/study-spots/public/place.html?type=${encodeURIComponent(p.Place_type)}&id=${encodeURIComponent(p.Place_id)}`;
+        });
+
+        const btnIn = el.querySelector('[data-act="checkin"]');
+        if (btnIn) btnIn.addEventListener('click', async () => {
+          try{
+            const fd = new FormData();
+            fd.append('place_type', p.Place_type);
+            fd.append('place_id', p.Place_id);
+
+            const res = await fetch('/study-spots/api/checkin.php', {
+              method: 'POST',
+              body: fd
+            });
+
+            const ans = await res.json();
+            if (!ans.ok) throw new Error(ans.error || 'checkin failed');
+
+            alert('Отмечено! Загруженность обновится ✅');
+            await load({recommend:true});
+          }catch(e){
+            console.error(e);
+            alert('Ошибка check-in. Проверь api/checkin.php');
+          }
+        });
+
+        const btnOut = el.querySelector('[data-act="checkout"]');
+        if (btnOut) btnOut.addEventListener('click', async () => {
+          try{
+            const fd = new FormData();
+
+            const res = await fetch('/study-spots/api/checkout.php', {
+              method: 'POST',
+              body: fd
+            });
+
+            const ans = await res.json();
+            if (!ans.ok) throw new Error(ans.error || 'checkout failed');
+
+            alert('Отмечено: вышла ✅');
+            await load({recommend:true});
+          }catch(e){
+            console.error(e);
+            alert('Ошибка checkout. Проверь api/checkout.php');
+          }
+        });
+
+        if (site){
+          el.querySelector('[data-act="site"]').addEventListener('click', () => {
+            window.open(site, '_blank', 'noopener');
+          });
+        }
+
+        recList.appendChild(el);
+      });
+    }
+
+    async function load({recommend=false} = {}){
+      statusEl.textContent = 'Загрузка…';
+
+      const url = buildApiUrl({recommend});
+      let places;
+
+      try{
+        const res = await fetch(url, { cache:'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        places = await res.json();
+      }catch(e){
+        console.error(e);
+        statusEl.textContent = 'Ошибка API';
+        mapStatus.querySelector('span').textContent = 'Ошибка';
+        if (recommend) renderRecommendations([]);
+        clearMarkers();
+        return;
+      }
+
+      if (!Array.isArray(places)){
+        statusEl.textContent = 'Неверный ответ API';
+        mapStatus.querySelector('span').textContent = 'Ошибка';
+        if (recommend) renderRecommendations([]);
+        clearMarkers();
+        return;
+      }
+
+      addMarkers(places);
+      mapStatus.querySelector('span').textContent = String(places.length);
+      statusEl.textContent = recommend ? `Рекомендации: ${places.length}` : `Точек: ${places.length}`;
+
+      if (recommend) renderRecommendations(places);
+      return places;
+    }
+
+    async function updateStats(){
+      try{
+        const res = await fetch('/study-spots/api/places.php?limit=5000', { cache:'no-store' });
+        const data = await res.json();
+        if (Array.isArray(data)){
+          const total = data.length;
+          const withCoords = data.filter(p => Number.isFinite(Number(p.Latitude)) && Number.isFinite(Number(p.Longitude))).length;
+          statsPill.textContent = `${total} мест · ${withCoords} на карте`;
+        } else {
+          statsPill.textContent = '—';
+        }
+      }catch(e){
+        statsPill.textContent = '—';
+      }
+    }
+
+    function reset(){
+      typeEl.value = 'all';
+      noiseEl.value = 'any';
+      maxPeopleEl.value = '5';
+      state = { wifi:false, sockets:false, free:false };
+      setMiniToggle(tWifi, false);
+      setMiniToggle(tSockets, false);
+      setMiniToggle(tFree, false);
+      load({recommend:false});
+    }
+
+    function ensureGeolocation(){
+      return new Promise((resolve, reject) => {
+        if (!navigator.geolocation){
+          reject(new Error('Геолокация не поддерживается браузером.'));
+          return;
+        }
+        navigator.geolocation.getCurrentPosition(
+          pos => resolve(pos),
+          err => reject(err),
+          { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
+        );
+      });
+    }
+
+    function setUserMarker(lat, lon){
+      userLatLng = {lat, lon};
+
+      const html = `<div style="
+        width:14px;height:14px;border-radius:50%;
+        background:#2563eb;border:2px solid #0ea5e9;
+        box-shadow:0 0 0 4px rgba(14,165,233,0.25);
+      "></div>`;
+
+      if (!userMarker){
+        userMarker = new mapgl.HtmlMarker(map, {
+          coordinates: [lon, lat],
+          html,
+          anchor: [7, 7],
+        });
+      } else {
+        userMarker.setCoordinates([lon, lat]);
+      }
+    }
+
+    function sortByNearThenScore(items){
+      if (!userLatLng) return items;
+
+      items.forEach(p => {
+        const { lat, lon } = getLatLon(p);
+
+        if (Number.isFinite(lat) && Number.isFinite(lon) && inMoscow(lat, lon)){
+          p._distanceKm = distKm(userLatLng.lat, userLatLng.lon, lat, lon);
+        } else {
+          p._distanceKm = 9999;
+        }
+      });
+
+      return items.slice().sort((a,b) => {
+        const aScore = Number.isFinite(Number(a.Score)) ? Number(a.Score) : 0;
+        const bScore = Number.isFinite(Number(b.Score)) ? Number(b.Score) : 0;
+
+        const aKey = a._distanceKm - (aScore / 100) * 0.8;
+        const bKey = b._distanceKm - (bScore / 100) * 0.8;
+
+        return aKey - bKey;
+      });
+    }
+
+    async function nearMeFlow(){
+      statusEl.textContent = 'Определяем местоположение…';
+      try{
+        const pos = await ensureGeolocation();
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+
+        setUserMarker(lat, lon);
+        document.getElementById('mapArea').scrollIntoView({behavior:'smooth'});
+        map.setCenter([lon, lat]);
+        map.setZoom(14);
+
+        const items = await load({recommend:true});
+        if (Array.isArray(items)){
+          const sorted = sortByNearThenScore(items);
+          renderRecommendations(sorted.slice(0, Math.min(sorted.length, Math.max(5, parseInt(topnEl.value,10)||10))));
+          statusEl.textContent = 'Показаны места рядом';
+        } else {
+          statusEl.textContent = 'Готово';
+        }
+      }catch(e){
+        console.error(e);
+        statusEl.textContent = 'Не удалось получить геолокацию';
+        alert(
+          'Не получилось определить местоположение.\n' +
+          'Проверь, что:\n' +
+          '1) Ты разрешила доступ к геолокации\n' +
+          '2) Открываешь сайт через http://localhost (не file://)\n' +
+          '3) В браузере включены службы геолокации'
+        );
+      }
+    }
+
+    async function loadMe(){
+      const r = await fetch('/study-spots/api/me.php', { cache:'no-store' });
+      const j = await r.json();
+      currentUser = j.user || null;
+      renderAuthBar();
+    }
+
+    function renderAuthBar(){
+      const el = document.getElementById('authBar');
+      if (!el) return;
+
+      if (!currentUser){
+        el.innerHTML = `
+          <a class="btn" href="/study-spots/public/auth.html?mode=login">Войти</a>
+          <a class="btn primary" href="/study-spots/public/auth.html?mode=reg">Регистрация</a>
+        `;
+        return;
+      }
+
+      el.innerHTML = `
+        <span class="auth-pill">👤 ${currentUser.Username}</span>
+        <a class="btn" href="/study-spots/public/account.html">Кабинет</a>
+        <button class="btn" id="btnLogout">Выйти</button>
+      `;
+
+      document.getElementById('btnLogout').onclick = async ()=>{
+        await fetch('/study-spots/api/logout.php', { method:'POST' });
+        currentUser = null;
+        renderAuthBar();
+        if (typeof load === 'function') load({ recommend:true });
+      };
+    }
+    let mkClicksBound = false;
+
+function bindPlaceMarkerClicks(){
+  if (mkClicksBound) return;
+  mkClicksBound = true;
+
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest('.mk');
+    if (!el) return;
+
+    const key = el.getAttribute('data-key');
+    if (!key) return;
+
+    const rec = markerByKey.get(key);
+    if (!rec || !rec.place) return;
+
+    showPopup(rec.place);
+  });
+}
+
+
+    document.getElementById('btnBestTop').addEventListener('click', () => {
+      document.getElementById('recommend').scrollIntoView({behavior:'smooth'});
+      load({recommend:true});
+    });
+    document.getElementById('btnBest').addEventListener('click', () => load({recommend:true}));
+
+    document.getElementById('btnNearTop').addEventListener('click', nearMeFlow);
+    document.getElementById('btnNear').addEventListener('click', nearMeFlow);
+
+    document.getElementById('btnShowAll').addEventListener('click', () => load({recommend:false}));
+    document.getElementById('btnApply').addEventListener('click', () => load({recommend:false}));
+    document.getElementById('btnReset').addEventListener('click', reset);
+
+    bindPlaceMarkerClicks();
+    updateStats();
+    loadMe();
+    load({recommend:false});
+  </script>
+</body>
+</html>

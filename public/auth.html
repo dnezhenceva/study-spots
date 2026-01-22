@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Вход — Study Spots</title>
+  <style>
+    :root{
+      --text:#0b1020; --muted:#51607a;
+      --card: rgba(255,255,255,0.60); --stroke: rgba(15,23,42,0.10);
+      --shadow: 0 18px 55px rgba(2,6,23,0.14);
+      --radius:18px;
+      --primary1:#1d4ed8; --primary2:#0ea5e9;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 600px at 12% 10%, rgba(37,99,235,0.22), transparent 60%),
+        radial-gradient(900px 600px at 92% 25%, rgba(251,113,133,0.18), transparent 55%),
+        radial-gradient(1000px 700px at 55% 105%, rgba(14,165,233,0.18), transparent 55%),
+        linear-gradient(180deg, #ffffff 0%, #f3f7ff 40%, #f6f2ff 100%);
+      min-height:100vh;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1080px;margin:0 auto;padding:18px}
+    .top{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:12px;flex-wrap:wrap;padding:12px 0;
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;
+    }
+    .logo{
+      width:44px;height:44px;border-radius:14px;
+      background: radial-gradient(circle at 30% 30%, #60a5fa 0%, #2563eb 38%, #0ea5e9 72%, #f472b6 100%);
+      box-shadow: 0 18px 40px rgba(29,78,216,0.25);
+    }
+    .brand b{font-size:16px}
+    .brand small{display:block;color:var(--muted);margin-top:2px}
+    .btn{
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,0.65);
+      padding:10px 12px;
+      border-radius: 14px;
+      cursor:pointer;
+      display:inline-flex;align-items:center;gap:8px;
+      backdrop-filter: blur(12px);
+    }
+    .btn.primary{
+      border:none;color:#fff;
+      background: linear-gradient(135deg,var(--primary1),var(--primary2));
+      box-shadow: 0 14px 34px rgba(29,78,216,0.20);
+    }
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.60);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      color: var(--muted);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero{
+      margin-top:10px;
+      border-radius: 26px;
+      padding: 18px;
+      background:
+        linear-gradient(135deg, rgba(29,78,216,0.85), rgba(14,165,233,0.60)),
+        radial-gradient(900px 500px at 20% 30%, rgba(255,255,255,0.22), transparent 55%);
+      color:#fff;
+      box-shadow: 0 30px 70px rgba(2,6,23,0.18);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero h1{margin:0;font-size:28px;line-height:1.15}
+    .hero p{margin:10px 0 0 0;opacity:0.95;max-width:760px}
+    .grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .card{
+      border: 1px solid rgba(255,255,255,0.55);
+      background: var(--card);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      padding: 16px;
+      overflow:hidden;
+    }
+    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+    .tab{
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,0.55);
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor:pointer;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .tab.active{
+      border:none;
+      color:#fff;
+      background: linear-gradient(135deg,var(--primary1),var(--primary2));
+      box-shadow: 0 14px 34px rgba(29,78,216,0.18);
+    }
+    .field{margin-top:10px}
+    .label{font-size:12.5px;color:var(--muted);font-weight:700}
+    .in{
+      width:100%;
+      margin-top:6px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(15,23,42,0.14);
+      background: rgba(255,255,255,0.70);
+      outline:none;
+      font-size: 14.5px;
+    }
+    .in:focus{border-color: rgba(14,165,233,0.55); box-shadow: 0 0 0 3px rgba(14,165,233,0.18);}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+    .msg{margin-top:10px;color:#b91c1c;font-weight:700}
+    .ok{color:#0f5132}
+    .hint{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.35}
+
+    @media (max-width: 920px){
+      .grid{grid-template-columns:1fr}
+      .hero h1{font-size:24px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <b>Study Spots</b>
+          <small>Вход в аккаунт — чтобы ставить check-in и оставлять отзывы</small>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <a class="btn" href="/study-spots/public/map.html">← На главную</a>
+        <span class="pill">Безопасно: пароли хэшируются</span>
+      </div>
+    </div>
+
+    <div class="hero">
+      <h1>Аккаунт Study Spots</h1>
+      <p>После входа ты сможешь отмечаться “Я здесь”, влиять на загруженность места и получать более точные рекомендации.</p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tabs">
+          <button class="tab active" id="tabLogin">Вход</button>
+          <button class="tab" id="tabReg">Регистрация</button>
+        </div>
+
+        <div id="loginBox">
+          <div class="field">
+            <div class="label">Имя пользователя</div>
+            <input class="in" id="le" placeholder="например: diana">
+          </div>
+          <div class="field">
+            <div class="label">Пароль</div>
+            <input class="in" id="lp" placeholder="••••••" type="password">
+          </div>
+          <div class="row">
+            <button class="btn primary" id="login">Войти</button>
+            <span class="hint">Если пароль не задан — зарегистрируйся.</span>
+          </div>
+          <div class="msg" id="lmsg"></div>
+        </div>
+
+        <div id="regBox" style="display:none;">
+          <div class="field">
+            <div class="label">Имя пользователя</div>
+            <input class="in" id="ru" placeholder="например: alya_polyakova">
+          </div>
+          <div class="field">
+            <div class="label">Пароль (мин. 6 символов)</div>
+            <input class="in" id="rp" placeholder="придумай пароль" type="password">
+          </div>
+          <div class="row">
+            <button class="btn primary" id="reg">Создать аккаунт</button>
+            <span class="hint">После регистрации ты сразу войдёшь.</span>
+          </div>
+          <div class="msg" id="rmsg"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 8px 0;">Зачем нужен вход?</h3>
+        <div class="hint">
+          <b>1) Check-in</b> влияет на “загруженность” места (последние 90 минут).<br><br>
+          <b>2) Персонализация</b>: можно показывать места рядом и учитывать твои предпочтения.<br><br>
+          <b>3) Отзывы</b>: пользовательские оценки улучшают рекомендации.
+        </div>
+        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+          <span class="pill">📍 check-in только для вошедших</span>
+          <span class="pill">⭐ рейтинг из отзывов</span>
+          <span class="pill">🔌 Wi-Fi / розетки</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  function setMode(mode){
+    const loginBox = document.getElementById('loginBox');
+    const regBox = document.getElementById('regBox');
+    const tL = document.getElementById('tabLogin');
+    const tR = document.getElementById('tabReg');
+
+    if (mode === 'reg'){
+      loginBox.style.display = 'none';
+      regBox.style.display = 'block';
+      tL.classList.remove('active');
+      tR.classList.add('active');
+    }else{
+      loginBox.style.display = 'block';
+      regBox.style.display = 'none';
+      tR.classList.remove('active');
+      tL.classList.add('active');
+    }
+    history.replaceState(null,'',`?mode=${mode}`);
+  }
+
+  document.getElementById('tabLogin').onclick = ()=>setMode('login');
+  document.getElementById('tabReg').onclick = ()=>setMode('reg');
+
+  const m = new URLSearchParams(location.search).get('mode');
+  if (m === 'reg') setMode('reg');
+
+  async function post(url, obj){
+    const fd = new FormData();
+    Object.entries(obj).forEach(([k,v])=>fd.append(k,v));
+    const r = await fetch(url, {method:'POST', body:fd});
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.error || 'Ошибка');
+    return j;
+  }
+
+  document.getElementById('login').onclick = async ()=>{
+    try{
+      document.getElementById('lmsg').textContent = '';
+      const username = document.getElementById('le').value.trim();
+      const password = document.getElementById('lp').value;
+      await post('/study-spots/api/login.php', { username, password });
+      location.href = '/study-spots/public/account.html';
+    }catch(e){
+      document.getElementById('lmsg').textContent = e.message;
+    }
+  };
+
+  document.getElementById('reg').onclick = async ()=>{
+    try{
+      document.getElementById('rmsg').textContent = '';
+      const username = document.getElementById('ru').value.trim();
+      const password = document.getElementById('rp').value;
+      await post('/study-spots/api/register.php', { username, password });
+      location.href = '/study-spots/public/account.html';
+    }catch(e){
+      document.getElementById('rmsg').textContent = e.message;
+    }
+  };
+</script>
+</body>
+</html>
