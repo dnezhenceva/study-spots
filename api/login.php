@@ -11,7 +11,6 @@ if ($username === '' || $pass === '') {
   echo json_encode(['ok'=>false,'error'=>'Заполни имя пользователя и пароль'], JSON_UNESCAPED_UNICODE);
   exit;
 }
-
 try {
   $st = $pdo->prepare("SELECT Id, Username, PasswordHash FROM users WHERE Username=:u LIMIT 1");
   $st->execute([':u'=>$username]);
