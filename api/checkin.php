@@ -1,6 +1,5 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
-
 $host = '127.0.0.1';
 $db   = 'study_spots';
 $user = 'root';
